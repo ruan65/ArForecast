@@ -11,8 +11,8 @@ apply plugin: 'androidx.navigation.safeargs'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.resocoder.forecastmvvm"
-        minSdkVersion 21
+        applicationId "org.premiumapp.arforecast"
+        minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
