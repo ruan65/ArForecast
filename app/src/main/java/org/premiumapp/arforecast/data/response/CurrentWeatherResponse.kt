@@ -1,4 +1,4 @@
-package org.premiumapp.arforecast.data
+package org.premiumapp.arforecast.data.response
 
 data class CurrentWeatherResponse(
     val location: Location,
