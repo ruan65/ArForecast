@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.premiumapp.arforecast.BuildConfig
 import org.premiumapp.arforecast.data.response.CurrentWeatherResponse
 import retrofit2.Retrofit
@@ -20,10 +21,11 @@ interface ApixuWeatherApiService {
     fun getCurrentWeather(
         @Query("q") location: String,
         @Query("lang") languageCode: String = "en"
-    ) : Deferred<CurrentWeatherResponse>
+    ): Deferred<CurrentWeatherResponse>
 
     companion object {
-        operator fun invoke() : ApixuWeatherApiService {
+        operator fun invoke(): ApixuWeatherApiService {
+
             val requestInterceptor = Interceptor { chain ->
 
                 val url = chain.request().url().newBuilder()
@@ -34,8 +36,14 @@ interface ApixuWeatherApiService {
                 return@Interceptor chain.proceed(request)
             }
 
+            val loggingInterceptor = HttpLoggingInterceptor().apply {
+                level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+                else HttpLoggingInterceptor.Level.NONE
+            }
+
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
+                .addInterceptor(loggingInterceptor)
                 .build()
 
             return Retrofit.Builder().client(okHttpClient)
