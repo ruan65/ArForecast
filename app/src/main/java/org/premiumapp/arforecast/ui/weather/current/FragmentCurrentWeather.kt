@@ -12,7 +12,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 import org.premiumapp.arforecast.R
-import org.premiumapp.arforecast.data.ApixuWeatherApiService
+import org.premiumapp.arforecast.data.network.ApixuWeatherApiService
 
 class FragmentCurrentWeather : Fragment() {
 

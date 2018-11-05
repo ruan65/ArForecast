@@ -1,4 +1,4 @@
-package org.premiumapp.arforecast.data.response
+package org.premiumapp.arforecast.data.db.entity
 
 data class Condition(
     val text: String,

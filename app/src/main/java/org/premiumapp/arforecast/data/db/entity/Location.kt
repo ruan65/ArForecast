@@ -1,4 +1,4 @@
-package org.premiumapp.arforecast.data.response
+package org.premiumapp.arforecast.data.db.entity
 
 import com.google.gson.annotations.SerializedName
 
