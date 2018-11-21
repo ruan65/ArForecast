@@ -10,10 +10,11 @@ import org.premiumapp.arforecast.data.db.uintlocalized.UnitSpecificCurrentWeathe
 import org.premiumapp.arforecast.data.network.WeatherNetworkDataSource
 import org.premiumapp.arforecast.data.network.response.CurrentWeatherResponse
 import org.threeten.bp.ZonedDateTime
+import java.util.*
 
 class RepositoryForecastImpl(
     private val currentWeatherDao: CurrentWeatherDao,
-    dataSource: WeatherNetworkDataSource
+    private val dataSource: WeatherNetworkDataSource
 ) : RepositoryForecast {
 
     init {
@@ -30,7 +31,9 @@ class RepositoryForecastImpl(
 
     private suspend fun initWeatherData() {
 
-        if (isFetchCurrentWeatherNeeded())
+        if (isFetchCurrentWeatherNeeded(ZonedDateTime.now().minusHours(1))) {
+            fetchCurrentWeather()
+        }
 
     }
 
@@ -38,6 +41,10 @@ class RepositoryForecastImpl(
         GlobalScope.launch(Dispatchers.IO) {
             currentWeatherDao.upsert(fetchedWeather.current)
         }
+    }
+
+    private suspend fun fetchCurrentWeather() {
+        dataSource.fetchCurrentWeather("Moscow", Locale.getDefault().language)
     }
 
     private fun isFetchCurrentWeatherNeeded(lastFetchTime: ZonedDateTime): Boolean {
