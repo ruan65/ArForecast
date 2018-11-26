@@ -11,16 +11,18 @@ import kotlinx.android.synthetic.main.fragment_current_weather.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.closestKodein
+import org.kodein.di.generic.instance
 import org.premiumapp.arforecast.R
 import org.premiumapp.arforecast.data.network.ApixuWeatherApiService
 import org.premiumapp.arforecast.data.network.ConnectivityInterceptorImpl
 import org.premiumapp.arforecast.data.network.WeatherNetworkDataSourceImpl
 
-class FragmentCurrentWeather : Fragment() {
-
-    companion object {
-        fun newInstance() = FragmentCurrentWeather()
-    }
+class FragmentCurrentWeather : Fragment(), KodeinAware {
+    override val kodein: Kodein by closestKodein()
+    private val vmFactory: CurrentWeatherVmFactory by instance()
 
     private lateinit var viewModelCurrent: FragmentCurrentWeatherViewModel
 
@@ -33,18 +35,19 @@ class FragmentCurrentWeather : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModelCurrent = ViewModelProviders.of(this).get(FragmentCurrentWeatherViewModel::class.java)
+        viewModelCurrent = ViewModelProviders.of(this, vmFactory)
+            .get(FragmentCurrentWeatherViewModel::class.java)
 
-        val apiService = ApixuWeatherApiService(ConnectivityInterceptorImpl(context!!))
-        val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiService)
-
-        weatherNetworkDataSource.downloadedCurrentWeather.observe(this,
-            Observer { weatherResponse ->
-                tv_current_weather.text = weatherResponse.toString()
-            })
-
-        GlobalScope.launch(Dispatchers.Main) {
-            weatherNetworkDataSource.fetchCurrentWeather("Moscow", "en")
-        }
+//        val apiService = ApixuWeatherApiService(ConnectivityInterceptorImpl(context!!))
+//        val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiService)
+//
+//        weatherNetworkDataSource.downloadedCurrentWeather.observe(this,
+//            Observer { weatherResponse ->
+//                tv_current_weather.text = weatherResponse.toString()
+//            })
+//
+//        GlobalScope.launch(Dispatchers.Main) {
+//            weatherNetworkDataSource.fetchCurrentWeather("Moscow", "en")
+//        }
     }
 }
