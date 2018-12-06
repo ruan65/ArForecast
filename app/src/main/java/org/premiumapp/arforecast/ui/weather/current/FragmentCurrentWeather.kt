@@ -38,16 +38,16 @@ class FragmentCurrentWeather : Fragment(), KodeinAware {
         viewModelCurrent = ViewModelProviders.of(this, vmFactory)
             .get(FragmentCurrentWeatherViewModel::class.java)
 
-//        val apiService = ApixuWeatherApiService(ConnectivityInterceptorImpl(context!!))
-//        val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiService)
-//
-//        weatherNetworkDataSource.downloadedCurrentWeather.observe(this,
-//            Observer { weatherResponse ->
-//                tv_current_weather.text = weatherResponse.toString()
-//            })
-//
-//        GlobalScope.launch(Dispatchers.Main) {
-//            weatherNetworkDataSource.fetchCurrentWeather("Moscow", "en")
-//        }
+        val apiService = ApixuWeatherApiService(ConnectivityInterceptorImpl(context!!))
+        val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiService)
+
+        weatherNetworkDataSource.downloadedCurrentWeather.observe(this,
+            Observer { weatherResponse ->
+                tv_current_weather.text = weatherResponse.toString()
+            })
+
+        GlobalScope.launch(Dispatchers.Main) {
+            weatherNetworkDataSource.fetchCurrentWeather("Moscow", "en")
+        }
     }
 }
