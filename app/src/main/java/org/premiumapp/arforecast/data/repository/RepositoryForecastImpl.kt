@@ -9,6 +9,7 @@ import org.premiumapp.arforecast.data.db.CurrentWeatherDao
 import org.premiumapp.arforecast.data.db.uintlocalized.UnitSpecificCurrentWeatherEntry
 import org.premiumapp.arforecast.data.network.WeatherNetworkDataSource
 import org.premiumapp.arforecast.data.network.response.CurrentWeatherResponse
+import org.premiumapp.arforecast.internal.Cv
 import org.threeten.bp.ZonedDateTime
 import java.util.*
 
@@ -43,7 +44,7 @@ class RepositoryForecastImpl(
     }
 
     private suspend fun fetchCurrentWeather() {
-        dataSource.fetchCurrentWeather("Moscow", Locale.getDefault().language)
+        dataSource.fetchCurrentWeather(Cv.HARDCODED_LOCATION, Locale.getDefault().language)
     }
 
     private fun isFetchCurrentWeatherNeeded(lastFetchTime: ZonedDateTime): Boolean {

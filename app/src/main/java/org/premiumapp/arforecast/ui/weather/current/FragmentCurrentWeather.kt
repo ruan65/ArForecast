@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_current_weather.*
@@ -14,6 +15,9 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import org.premiumapp.arforecast.R
 import org.premiumapp.arforecast.base.ScopedFragment
+import org.premiumapp.arforecast.data.db.uintlocalized.UnitSpecificCurrentWeatherEntry
+import org.premiumapp.arforecast.internal.Cv
+import org.premiumapp.arforecast.internal.glide.GlideApp
 
 class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
@@ -40,8 +44,64 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
         launch {
             val currentWeather = viewModelCurrent.weather.await()
             currentWeather.observe(this@FragmentCurrentWeather, Observer {
-//                tv_current_weather.text = it?.toString()
+
+                if (null == it) return@Observer
+                group_loading.visibility = View.GONE
+                updateUi(it)
             })
         }
+    }
+
+    private fun updateUi(it: UnitSpecificCurrentWeatherEntry) {
+        updateLocation(Cv.HARDCODED_LOCATION)
+        updateDateToToday()
+        updateTemperature(it.temperature, it.feelsLikeTemperature)
+        updateCondition(it.conditionText, it.conditionIconUrl)
+        updatePrecipitation(it.precipitationVolume)
+        updateCondition(it.conditionText, it.conditionIconUrl)
+        updateWind(it.windDirection, it.windSpeed)
+        updateVisibility(it.visibilityDistance)
+    }
+
+    private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String) =
+        if (viewModelCurrent.isMetric) metric else imperial
+
+
+    private fun updatePrecipitation(precipitationVolume: Double) {
+
+        val unit = chooseLocalizedUnitAbbreviation("mm", "in")
+        textView_precipitation.text = "Precipitation: $precipitationVolume $unit"
+    }
+
+    private fun updateCondition(conditionText: String, conditionIconUrl: String) {
+        textView_condition.text = conditionText
+        GlideApp.with(this)
+            .load("http:$conditionIconUrl")
+            .into(imageView_condition_icon)
+    }
+
+    private fun updateTemperature(temperature: Double, feelsLikeTemperature: Double) {
+        val unit = chooseLocalizedUnitAbbreviation(Cv.CELCIUS, Cv.FARENHEIGHT)
+        textView_temperature.text = "$temperature $unit"
+        textView_feels_like_temperature.text = "Feels like $feelsLikeTemperature $unit"
+    }
+
+    private fun updateLocation(location: String) {
+        (activity as AppCompatActivity).supportActionBar?.title = location
+    }
+
+    private fun updateDateToToday() {
+        (activity as AppCompatActivity).supportActionBar?.subtitle = "Today"
+    }
+
+    private fun updateWind(windDirection: String, windSpeed: Double) {
+        val unitAbbreviation = chooseLocalizedUnitAbbreviation(Cv.KM_PER_HOUR,
+            Cv.MILES_PER_HOUR)
+        textView_wind.text = "Wind: $windDirection, $windSpeed $unitAbbreviation"
+    }
+
+    private fun updateVisibility(visibilityDistance: Double) {
+        val unitAbbreviation = chooseLocalizedUnitAbbreviation(Cv.MM, Cv.MILES)
+        textView_visibility.text = "Visibility: $visibilityDistance $unitAbbreviation"
     }
 }

@@ -10,7 +10,7 @@ class FragmentCurrentWeatherViewModel(private val forecastRepository: Repository
 
     private val unitSystem = UnitSystem.METRIC// get from settings later
 
-    private val isMetric: Boolean
+    public val isMetric: Boolean
         get() = unitSystem == UnitSystem.METRIC
 
     val weather by lazyDeferred {
