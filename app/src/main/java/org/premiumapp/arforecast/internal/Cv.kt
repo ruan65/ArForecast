@@ -2,7 +2,7 @@ package org.premiumapp.arforecast.internal
 
 class Cv {
     companion object {
-        const val HARDCODED_LOCATION = "Los Angeles"
+        const val HARDCODED_LOCATION = "Madrid"
         const val CELCIUS = "°C"
         const val FARENHEIGHT = "°F"
         const val KM_PER_HOUR = "kph"

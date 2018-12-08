@@ -1,7 +1,19 @@
 <resources>
     <string name="app_name">ArForecast</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loading">Loading</string>
+    <string name="key_use_device_location">USE_DEVICE_LOCATION</string>
+    <string name="key_custom_location">CUSTOM_LOCATION</string>
+    <string name="key_unit_system">UNIT_SYSTEM</string>
+
+    <string-array name="unit_system_values">
+        <item>METRIC</item>
+        <item>IMPERIAL</item>
+    </string-array>
+
+    <string-array name="unit_system_entries">
+        <item>Metric</item>
+        <item>Imperial</item>
+    </string-array>
 </resources>
