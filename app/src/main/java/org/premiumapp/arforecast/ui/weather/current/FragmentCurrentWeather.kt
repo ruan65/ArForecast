@@ -40,7 +40,7 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
         launch {
             val currentWeather = viewModelCurrent.weather.await()
             currentWeather.observe(this@FragmentCurrentWeather, Observer {
-                tv_current_weather.text = it?.toString()
+//                tv_current_weather.text = it?.toString()
             })
         }
     }

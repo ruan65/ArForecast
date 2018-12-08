@@ -34,7 +34,6 @@ class RepositoryForecastImpl(
         if (isFetchCurrentWeatherNeeded(ZonedDateTime.now().minusHours(1))) {
             fetchCurrentWeather()
         }
-
     }
 
     private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponse) {
