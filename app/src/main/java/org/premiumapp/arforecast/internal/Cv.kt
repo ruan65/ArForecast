@@ -10,5 +10,6 @@ class Cv {
         const val MM = "mm"
         const val INCH = "in"
         const val MILES = "miles"
+        const val KM: String = "km"
     }
 }

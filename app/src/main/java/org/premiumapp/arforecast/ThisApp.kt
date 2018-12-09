@@ -1,6 +1,7 @@
 package org.premiumapp.arforecast
 
 import android.app.Application
+import android.preference.PreferenceManager
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -11,6 +12,8 @@ import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 import org.premiumapp.arforecast.data.db.ForecastDb
 import org.premiumapp.arforecast.data.network.*
+import org.premiumapp.arforecast.data.provider.UnitProvider
+import org.premiumapp.arforecast.data.provider.UnitProviderImpl
 import org.premiumapp.arforecast.data.repository.RepositoryForecast
 import org.premiumapp.arforecast.data.repository.RepositoryForecastImpl
 import org.premiumapp.arforecast.ui.weather.current.CurrentWeatherVmFactory
@@ -28,11 +31,13 @@ class ThisApp : Application(), KodeinAware {
         bind() from singleton { ApixuWeatherApiService(instance()) }
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
         bind<RepositoryForecast>() with singleton { RepositoryForecastImpl(instance(), instance()) }
-        bind() from provider { CurrentWeatherVmFactory(instance()) }
+        bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
+        bind() from provider { CurrentWeatherVmFactory(instance(), instance()) }
     }
 
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
     }
 }

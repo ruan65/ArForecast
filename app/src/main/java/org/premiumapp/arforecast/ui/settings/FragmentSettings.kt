@@ -6,6 +6,8 @@ import androidx.preference.PreferenceFragmentCompat
 import org.premiumapp.arforecast.R
 
 class FragmentSettings : PreferenceFragmentCompat() {
+
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         addPreferencesFromResource(R.xml.preferences)
