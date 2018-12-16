@@ -5,14 +5,19 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import org.premiumapp.arforecast.data.db.entity.CurrentWeatherEntry
+import org.premiumapp.arforecast.data.db.entity.WeatherLocation
 
 @Database(
-    entities = [CurrentWeatherEntry::class],
+    entities = [
+        CurrentWeatherEntry::class,
+        WeatherLocation::class
+    ],
     version = 1
 )
 abstract class ForecastDb : RoomDatabase() {
 
     abstract fun currentWeatherDao(): CurrentWeatherDao
+    abstract fun weatherLocationDao(): DaoWeatherLocation
 
     companion object {
         @Volatile
@@ -25,8 +30,10 @@ abstract class ForecastDb : RoomDatabase() {
         }
 
         private fun buildDb(context: Context) =
-                Room.databaseBuilder(context.applicationContext,
-                    ForecastDb::class.java, "forecast.db")
-                    .build()
+            Room.databaseBuilder(
+                context.applicationContext,
+                ForecastDb::class.java, "forecast.db"
+            )
+                .build()
     }
 }

@@ -6,6 +6,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.premiumapp.arforecast.data.db.CurrentWeatherDao
+import org.premiumapp.arforecast.data.db.DaoWeatherLocation
+import org.premiumapp.arforecast.data.db.entity.WeatherLocation
 import org.premiumapp.arforecast.data.db.uintlocalized.UnitSpecificCurrentWeatherEntry
 import org.premiumapp.arforecast.data.network.WeatherNetworkDataSource
 import org.premiumapp.arforecast.data.network.response.CurrentWeatherResponse
@@ -15,6 +17,7 @@ import java.util.*
 
 class RepositoryForecastImpl(
     private val currentWeatherDao: CurrentWeatherDao,
+    private val daoWeatherLocation: DaoWeatherLocation,
     private val dataSource: WeatherNetworkDataSource
 ) : RepositoryForecast {
 
@@ -30,6 +33,11 @@ class RepositoryForecastImpl(
             if (metric) currentWeatherDao.getWeatherMetric() else currentWeatherDao.getWeatherImperial()
         }
 
+    override suspend fun getWeatherLocation(): LiveData<WeatherLocation> =
+        withContext(Dispatchers.IO) {
+            daoWeatherLocation.getLocation()
+        }
+
     private suspend fun initWeatherData() {
 
         if (isFetchCurrentWeatherNeeded(ZonedDateTime.now().minusHours(1))) {
@@ -40,6 +48,7 @@ class RepositoryForecastImpl(
     private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponse) {
         GlobalScope.launch(Dispatchers.IO) {
             currentWeatherDao.upsert(fetchedWeather.current)
+            daoWeatherLocation.upsert(fetchedWeather.location)
         }
     }
 
