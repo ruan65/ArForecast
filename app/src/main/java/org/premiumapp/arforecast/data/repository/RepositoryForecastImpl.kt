@@ -11,6 +11,7 @@ import org.premiumapp.arforecast.data.db.entity.WeatherLocation
 import org.premiumapp.arforecast.data.db.uintlocalized.UnitSpecificCurrentWeatherEntry
 import org.premiumapp.arforecast.data.network.WeatherNetworkDataSource
 import org.premiumapp.arforecast.data.network.response.CurrentWeatherResponse
+import org.premiumapp.arforecast.data.provider.LocationProvider
 import org.premiumapp.arforecast.internal.Cv
 import org.threeten.bp.ZonedDateTime
 import java.util.*
@@ -18,7 +19,8 @@ import java.util.*
 class RepositoryForecastImpl(
     private val currentWeatherDao: CurrentWeatherDao,
     private val daoWeatherLocation: DaoWeatherLocation,
-    private val dataSource: WeatherNetworkDataSource
+    private val dataSource: WeatherNetworkDataSource,
+    private val locationProvider: LocationProvider
 ) : RepositoryForecast {
 
     init {
@@ -40,7 +42,14 @@ class RepositoryForecastImpl(
 
     private suspend fun initWeatherData() {
 
-        if (isFetchCurrentWeatherNeeded(ZonedDateTime.now().minusHours(1))) {
+        val lastLocation = daoWeatherLocation.getLocation().value
+
+        if (lastLocation == null || locationProvider.hasLocationChanged(lastLocation)) {
+            fetchCurrentWeather()
+            return
+        }
+
+        if (isFetchCurrentWeatherNeeded(lastLocation.zonedDateTime)) {
             fetchCurrentWeather()
         }
     }
@@ -53,7 +62,7 @@ class RepositoryForecastImpl(
     }
 
     private suspend fun fetchCurrentWeather() {
-        dataSource.fetchCurrentWeather(Cv.HARDCODED_LOCATION, Locale.getDefault().language)
+        dataSource.fetchCurrentWeather(locationProvider.getPreferredLocation(), Locale.getDefault().language)
     }
 
     private fun isFetchCurrentWeatherNeeded(lastFetchTime: ZonedDateTime): Boolean {

@@ -40,27 +40,31 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
         bindUI()
     }
 
-    private fun bindUI() {
-        launch {
-            val currentWeather = viewModelCurrent.weather.await()
-            currentWeather.observe(this@FragmentCurrentWeather, Observer {
+    private fun bindUI() = launch {
 
-                if (null == it) return@Observer
-                group_loading.visibility = View.GONE
-                updateUi(it)
-            })
-        }
-    }
+        val currentWeather = viewModelCurrent.weather.await()
 
-    private fun updateUi(it: UnitSpecificCurrentWeatherEntry) {
-        updateLocation(Cv.HARDCODED_LOCATION)
-        updateDateToToday()
-        updateTemperature(it.temperature, it.feelsLikeTemperature)
-        updateCondition(it.conditionText, it.conditionIconUrl)
-        updatePrecipitation(it.precipitationVolume)
-        updateCondition(it.conditionText, it.conditionIconUrl)
-        updateWind(it.windDirection, it.windSpeed)
-        updateVisibility(it.visibilityDistance)
+        val weatherLocation = viewModelCurrent.weatherLocation.await()
+
+        weatherLocation.observe(this@FragmentCurrentWeather, Observer { location ->
+            if (null == location) return@Observer
+            updateLocation(location = location.name)
+        })
+
+        currentWeather.observe(this@FragmentCurrentWeather, Observer {
+
+            if (null == it) return@Observer
+
+            group_loading.visibility = View.GONE
+
+            updateDateToToday()
+            updateTemperature(it.temperature, it.feelsLikeTemperature)
+            updateCondition(it.conditionText, it.conditionIconUrl)
+            updatePrecipitation(it.precipitationVolume)
+            updateWind(it.windDirection, it.windSpeed)
+            updateVisibility(it.visibilityDistance)
+            updateCondition(it.conditionText, it.conditionIconUrl)
+        })
     }
 
     private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String) =
@@ -95,8 +99,10 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
     }
 
     private fun updateWind(windDirection: String, windSpeed: Double) {
-        val unitAbbreviation = chooseLocalizedUnitAbbreviation(Cv.KM_PER_HOUR,
-            Cv.MILES_PER_HOUR)
+        val unitAbbreviation = chooseLocalizedUnitAbbreviation(
+            Cv.KM_PER_HOUR,
+            Cv.MILES_PER_HOUR
+        )
         textView_wind.text = "Wind: $windDirection, $windSpeed $unitAbbreviation"
     }
 
