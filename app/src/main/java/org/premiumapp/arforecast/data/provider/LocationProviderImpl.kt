@@ -15,11 +15,16 @@ import org.premiumapp.arforecast.internal.asDeferred
 
 class LocationProviderImpl(
     private val fusedLocationProviderClient: FusedLocationProviderClient,
-    context: Context) : PreferencesProvider(context), LocationProvider {
+    context: Context
+) : PreferencesProvider(context), LocationProvider {
 
     override suspend fun hasLocationChanged(lastWeatherLocation: WeatherLocation): Boolean {
 
-        val deviceLocationChanged = isDeviceLocationChanged(lastWeatherLocation)
+        val deviceLocationChanged = try {
+            isDeviceLocationChanged(lastWeatherLocation)
+        } catch (e: LocationPermissionNotGrantedException) {
+            false
+        }
         return deviceLocationChanged || isCustomLocationChanged(lastWeatherLocation)
     }
 
@@ -30,6 +35,7 @@ class LocationProviderImpl(
         return lastWeatherLocation.name != customLocationName
 
     }
+
     private fun getCustomLocationName(): String =
         preferences.getString(appContext.getString(R.string.key_custom_location), null)!!
 
@@ -59,6 +65,13 @@ class LocationProviderImpl(
     }
 
     override suspend fun getPreferredLocation(): String {
-        return "Moscow"
+        if (isUsingDeviceLocation()) {
+            try {
+                val deviceLocation = getDeviceLocation().await() ?: return getCustomLocationName()
+                return "${deviceLocation.latitude},${deviceLocation.longitude}"
+            } catch (e: LocationPermissionNotGrantedException) {
+                return getCustomLocationName()
+            }
+        } else return getCustomLocationName()
     }
 }
