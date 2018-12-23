@@ -19,21 +19,29 @@ class LocationProviderImpl(
 
     override suspend fun hasLocationChanged(lastWeatherLocation: WeatherLocation): Boolean {
 
-        val deviceLocationChanged = isDeviceLocationChanged()
-        return deviceLocationChanged || isCustomLocationChanged()
+        val deviceLocationChanged = isDeviceLocationChanged(lastWeatherLocation)
+        return deviceLocationChanged || isCustomLocationChanged(lastWeatherLocation)
     }
 
-    private fun isCustomLocationChanged(): Boolean {
+    private fun isCustomLocationChanged(lastWeatherLocation: WeatherLocation): Boolean {
 
+        val customLocationName = getCustomLocationName()
+
+        return lastWeatherLocation.name != customLocationName
 
     }
+    private fun getCustomLocationName(): String =
+        preferences.getString(appContext.getString(R.string.key_custom_location), null)!!
 
-    private fun isDeviceLocationChanged(): Boolean {
+    private suspend fun isDeviceLocationChanged(lastWeatherLocation: WeatherLocation): Boolean {
         if (!isUsingDeviceLocation()) return false
 
         val deviceLocation = getDeviceLocation().await() ?: return false
 
         val comparisonThreshold = 0.03
+
+        return Math.abs(deviceLocation.latitude - lastWeatherLocation.lat) > comparisonThreshold ||
+                Math.abs(deviceLocation.longitude - lastWeatherLocation.lon) > comparisonThreshold
     }
 
     @SuppressLint("MissingPermission")
