@@ -21,6 +21,7 @@ import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 import org.premiumapp.arforecast.R
 import org.premiumapp.arforecast.internal.Cv
+import org.premiumapp.arforecast.internal.LifecycleBoundLocationManager
 
 class MainActivity : AppCompatActivity(), KodeinAware {
 
@@ -80,6 +81,6 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
     private fun bindLocationManager() {
 
-
+        LifecycleBoundLocationManager(this, fusedLocationProviderClient, locationCallback)
     }
 }
