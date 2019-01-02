@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import org.premiumapp.arforecast.data.db.entity.CurrentWeatherEntry
 import org.premiumapp.arforecast.data.db.entity.WeatherLocation
 
@@ -14,9 +15,11 @@ import org.premiumapp.arforecast.data.db.entity.WeatherLocation
     ],
     version = 1
 )
+@TypeConverters(LocalDateConverter::class)
 abstract class ForecastDb : RoomDatabase() {
 
     abstract fun currentWeatherDao(): CurrentWeatherDao
+    abstract fun futureWeatherDao(): FutureWeatherDao
     abstract fun weatherLocationDao(): DaoWeatherLocation
 
     companion object {

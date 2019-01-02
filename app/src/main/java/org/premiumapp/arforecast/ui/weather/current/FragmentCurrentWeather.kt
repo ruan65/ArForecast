@@ -15,7 +15,6 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import org.premiumapp.arforecast.R
 import org.premiumapp.arforecast.base.ScopedFragment
-import org.premiumapp.arforecast.data.db.uintlocalized.UnitSpecificCurrentWeatherEntry
 import org.premiumapp.arforecast.internal.Cv
 import org.premiumapp.arforecast.internal.glide.GlideApp
 

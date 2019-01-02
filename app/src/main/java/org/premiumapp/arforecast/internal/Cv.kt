@@ -12,5 +12,6 @@ class Cv {
         const val MILES = "miles"
         const val KM: String = "km"
         const val THIS_APP_REQUEST_PERMISSION_COARCE_LOCATION_CODE = 0xABBA
+        const val FORECAST_DAYS_COUNT = 7
     }
 }

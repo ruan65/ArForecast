@@ -7,8 +7,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import org.premiumapp.arforecast.data.db.entity.CURRENT_WEATHER_ID
 import org.premiumapp.arforecast.data.db.entity.CurrentWeatherEntry
-import org.premiumapp.arforecast.data.db.uintlocalized.ImperialCurrentWeatherEntry
-import org.premiumapp.arforecast.data.db.uintlocalized.MetricCurrentWeatherEntry
+import org.premiumapp.arforecast.data.db.uintlocalized.current.ImperialCurrentWeatherEntry
+import org.premiumapp.arforecast.data.db.uintlocalized.current.MetricCurrentWeatherEntry
 
 @Dao
 interface CurrentWeatherDao {

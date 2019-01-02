@@ -1,4 +1,4 @@
-package org.premiumapp.arforecast.data.db.uintlocalized
+package org.premiumapp.arforecast.data.db.uintlocalized.current
 
 interface UnitSpecificCurrentWeatherEntry {
     val temperature: Double

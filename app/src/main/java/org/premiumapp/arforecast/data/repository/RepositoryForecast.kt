@@ -2,7 +2,7 @@ package org.premiumapp.arforecast.data.repository
 
 import androidx.lifecycle.LiveData
 import org.premiumapp.arforecast.data.db.entity.WeatherLocation
-import org.premiumapp.arforecast.data.db.uintlocalized.UnitSpecificCurrentWeatherEntry
+import org.premiumapp.arforecast.data.db.uintlocalized.current.UnitSpecificCurrentWeatherEntry
 
 interface RepositoryForecast {
 

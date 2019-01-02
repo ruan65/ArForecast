@@ -8,11 +8,10 @@ import kotlinx.coroutines.withContext
 import org.premiumapp.arforecast.data.db.CurrentWeatherDao
 import org.premiumapp.arforecast.data.db.DaoWeatherLocation
 import org.premiumapp.arforecast.data.db.entity.WeatherLocation
-import org.premiumapp.arforecast.data.db.uintlocalized.UnitSpecificCurrentWeatherEntry
+import org.premiumapp.arforecast.data.db.uintlocalized.current.UnitSpecificCurrentWeatherEntry
 import org.premiumapp.arforecast.data.network.WeatherNetworkDataSource
-import org.premiumapp.arforecast.data.network.response.CurrentWeatherResponse
+import org.premiumapp.arforecast.data.network.response.current.CurrentWeatherResponse
 import org.premiumapp.arforecast.data.provider.LocationProvider
-import org.premiumapp.arforecast.internal.Cv
 import org.threeten.bp.ZonedDateTime
 import java.util.*
 

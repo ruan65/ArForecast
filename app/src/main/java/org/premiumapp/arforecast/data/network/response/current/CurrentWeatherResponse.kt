@@ -1,4 +1,4 @@
-package org.premiumapp.arforecast.data.network.response
+package org.premiumapp.arforecast.data.network.response.current
 
 import org.premiumapp.arforecast.data.db.entity.CurrentWeatherEntry
 import org.premiumapp.arforecast.data.db.entity.WeatherLocation
