@@ -6,12 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import org.premiumapp.arforecast.data.db.entity.CurrentWeatherEntry
+import org.premiumapp.arforecast.data.db.entity.FutureWeatherEntry
 import org.premiumapp.arforecast.data.db.entity.WeatherLocation
 
 @Database(
     entities = [
         CurrentWeatherEntry::class,
-        WeatherLocation::class
+        WeatherLocation::class,
+        FutureWeatherEntry::class
     ],
     version = 1
 )

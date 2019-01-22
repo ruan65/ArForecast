@@ -12,4 +12,4 @@ data class ImperialSimpleFutureWeatherEntry(
     override val conditionText: String,
     @ColumnInfo(name = "condition_icon")
     override val conditionIconUrl: String
-) : UnitSpecificSipmpleFutureWeatherEntry
+) : UnitSpecificSimpleFutureWeatherEntry

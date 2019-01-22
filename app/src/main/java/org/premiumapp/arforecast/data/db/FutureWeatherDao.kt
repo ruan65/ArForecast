@@ -1,6 +1,7 @@
 package org.premiumapp.arforecast.data.db
 
 import androidx.lifecycle.LiveData
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -9,6 +10,7 @@ import org.premiumapp.arforecast.data.db.uintlocalized.future.ImperialSimpleFutu
 import org.premiumapp.arforecast.data.db.uintlocalized.future.MetricSimpleFutureWeatherEntry
 import org.threeten.bp.LocalDate
 
+@Dao
 interface FutureWeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(futureWeatherEntries: List<FutureWeatherEntry>)
