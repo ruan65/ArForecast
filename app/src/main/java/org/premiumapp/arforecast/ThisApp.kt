@@ -20,7 +20,8 @@ import org.premiumapp.arforecast.data.provider.UnitProvider
 import org.premiumapp.arforecast.data.provider.UnitProviderImpl
 import org.premiumapp.arforecast.data.repository.RepositoryForecast
 import org.premiumapp.arforecast.data.repository.RepositoryForecastImpl
-import org.premiumapp.arforecast.ui.weather.current.CurrentWeatherVmFactory
+import org.premiumapp.arforecast.ui.weather.current.FactoryCurrentWeatherViewModel
+import org.premiumapp.arforecast.ui.weather.future.list.FactoryForecastViewModel
 
 class ThisApp : Application(), KodeinAware {
     override val kodein: Kodein = Kodein.lazy {
@@ -29,6 +30,7 @@ class ThisApp : Application(), KodeinAware {
 
         bind() from singleton { ForecastDb(instance()) }
         bind() from singleton { instance<ForecastDb>().currentWeatherDao() }
+        bind() from singleton { instance<ForecastDb>().futureWeatherDao() }
         bind() from singleton { instance<ForecastDb>().weatherLocationDao() }
 
         bind<ConnectivityInterceptor>() with singleton { ConnectivityInterceptorImpl(instance()) }
@@ -37,9 +39,10 @@ class ThisApp : Application(), KodeinAware {
         bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
         bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance()) }
-        bind<RepositoryForecast>() with singleton { RepositoryForecastImpl(instance(), instance(), instance(), instance()) }
+        bind<RepositoryForecast>() with singleton { RepositoryForecastImpl(instance(), instance(), instance(), instance(), instance()) }
         bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
-        bind() from provider { CurrentWeatherVmFactory(instance(), instance()) }
+        bind() from provider { FactoryCurrentWeatherViewModel(instance(), instance()) }
+        bind() from provider { FactoryForecastViewModel(instance(), instance()) }
     }
 
     override fun onCreate() {

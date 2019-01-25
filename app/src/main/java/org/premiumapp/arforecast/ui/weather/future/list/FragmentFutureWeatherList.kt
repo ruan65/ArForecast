@@ -15,7 +15,7 @@ class FragmentFutureWeatherList : Fragment() {
         fun newInstance() = FragmentFutureWeatherList()
     }
 
-    private lateinit var viewModel: FragmentFutureWeatherListViewModel
+    private lateinit var viewModel: ViewModelForecast
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +26,7 @@ class FragmentFutureWeatherList : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(FragmentFutureWeatherListViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(ViewModelForecast::class.java)
         // TODO: Use the ViewModel
     }
 

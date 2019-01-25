@@ -12,6 +12,6 @@ class ViewModelForecast(
     : WeatherViewModel(forecastRepository, unitProvider) {
 
     val weather by lazyDeferred {
-        forecastRepository.getForecast(LocalDate.now(), isMetricUnit)
+        forecastRepository.getForecast(LocalDate.now(), super.isMetricUnit)
     }
 }

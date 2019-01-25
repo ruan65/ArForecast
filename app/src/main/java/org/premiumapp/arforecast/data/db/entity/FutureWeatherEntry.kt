@@ -11,6 +11,7 @@ import org.premiumapp.arforecast.data.network.response.future.Astro
 data class FutureWeatherEntry(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
+    @Embedded
     val astro: Astro,
     val date: String,
     @SerializedName("date_epoch")

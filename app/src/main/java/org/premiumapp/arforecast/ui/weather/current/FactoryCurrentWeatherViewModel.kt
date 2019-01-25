@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import org.premiumapp.arforecast.data.provider.UnitProvider
 import org.premiumapp.arforecast.data.repository.RepositoryForecast
 
-class CurrentWeatherVmFactory(
+class FactoryCurrentWeatherViewModel(
     private val forecastRepo: RepositoryForecast,
     private val unitProvider: UnitProvider
 ) : ViewModelProvider.NewInstanceFactory() {

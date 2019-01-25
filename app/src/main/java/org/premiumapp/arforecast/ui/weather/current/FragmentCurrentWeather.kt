@@ -20,7 +20,7 @@ import org.premiumapp.arforecast.internal.glide.GlideApp
 
 class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
-    private val vmFactory: CurrentWeatherVmFactory by instance()
+    private val vmFactoryCurrentWeatherViewModel: FactoryCurrentWeatherViewModel by instance()
 
     private lateinit var viewModelCurrentCurrentWeather: ViewModelCurrentWeather
 
@@ -33,7 +33,7 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModelCurrentCurrentWeather = ViewModelProviders.of(this, vmFactory)
+        viewModelCurrentCurrentWeather = ViewModelProviders.of(this, vmFactoryCurrentWeatherViewModel)
             .get(ViewModelCurrentWeather::class.java)
 
         bindUI()
