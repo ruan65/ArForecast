@@ -15,6 +15,7 @@ import org.premiumapp.arforecast.data.network.WeatherNetworkDataSource
 import org.premiumapp.arforecast.data.network.response.current.CurrentWeatherResponse
 import org.premiumapp.arforecast.data.network.response.future.FutureWeatherResponse
 import org.premiumapp.arforecast.data.provider.LocationProvider
+import org.premiumapp.arforecast.internal.Cv.Companion.FORECAST_DAYS_COUNT
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZonedDateTime
 import java.util.*
@@ -111,7 +112,9 @@ class RepositoryForecastImpl(
         return lastFetchTime.isBefore(thirtyMinutesAgo)
     }
 
-    private fun isFetchForecastNeeded(zonedDateTime: ZonedDateTime): Boolean {
-
+    private fun isFetchForecastNeeded(lastFetchTime: ZonedDateTime): Boolean {
+        val today = LocalDate.now()
+        val countFutureWeather = futureWeatherDao.countFutureWeather(today)
+        return countFutureWeather < FORECAST_DAYS_COUNT
     }
 }

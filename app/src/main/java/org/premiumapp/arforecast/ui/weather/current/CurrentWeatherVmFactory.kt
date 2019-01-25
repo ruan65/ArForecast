@@ -12,6 +12,6 @@ class CurrentWeatherVmFactory(
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return FragmentCurrentWeatherViewModel(forecastRepo, unitProvider) as T
+        return ViewModelCurrentWeather(forecastRepo, unitProvider) as T
     }
 }

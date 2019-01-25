@@ -22,7 +22,7 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private val vmFactory: CurrentWeatherVmFactory by instance()
 
-    private lateinit var viewModelCurrent: FragmentCurrentWeatherViewModel
+    private lateinit var viewModelCurrentCurrentWeather: ViewModelCurrentWeather
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,17 +33,17 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModelCurrent = ViewModelProviders.of(this, vmFactory)
-            .get(FragmentCurrentWeatherViewModel::class.java)
+        viewModelCurrentCurrentWeather = ViewModelProviders.of(this, vmFactory)
+            .get(ViewModelCurrentWeather::class.java)
 
         bindUI()
     }
 
     private fun bindUI() = launch {
 
-        val currentWeather = viewModelCurrent.weather.await()
+        val currentWeather = viewModelCurrentCurrentWeather.weather.await()
 
-        val weatherLocation = viewModelCurrent.weatherLocation.await()
+        val weatherLocation = viewModelCurrentCurrentWeather.weatherLocation.await()
 
         weatherLocation.observe(this@FragmentCurrentWeather, Observer { location ->
             if (null == location) return@Observer
@@ -67,7 +67,7 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
     }
 
     private fun chooseLocalizedUnitAbbreviation(metric: String, imperial: String) =
-        if (viewModelCurrent.isMetric) metric else imperial
+        if (viewModelCurrentCurrentWeather.isMetricUnit) metric else imperial
 
 
     private fun updatePrecipitation(precipitationVolume: Double) {

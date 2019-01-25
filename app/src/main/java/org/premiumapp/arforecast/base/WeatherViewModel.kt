@@ -1,24 +1,20 @@
-package org.premiumapp.arforecast.ui.weather.current
+package org.premiumapp.arforecast.base
 
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel;
 import org.premiumapp.arforecast.data.provider.UnitProvider
 import org.premiumapp.arforecast.data.repository.RepositoryForecast
 import org.premiumapp.arforecast.internal.UnitSystem
 import org.premiumapp.arforecast.internal.lazyDeferred
 
-class FragmentCurrentWeatherViewModel(
+abstract class WeatherViewModel(
     private val forecastRepository: RepositoryForecast,
-    unitProvider: UnitProvider)
-    : ViewModel() {
+    unitProvider: UnitProvider
+) : ViewModel() {
 
     private val unitSystem = unitProvider.getUnitSystem()
 
-    val isMetric: Boolean
+    val isMetricUnit: Boolean
         get() = unitSystem == UnitSystem.METRIC
-
-    val weather by lazyDeferred {
-        forecastRepository.getCurrentWeather(isMetric)
-    }
 
     val weatherLocation by lazyDeferred {
         forecastRepository.getWeatherLocation()
