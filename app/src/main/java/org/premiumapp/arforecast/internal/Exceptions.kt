@@ -10,3 +10,7 @@ class LocationPermissionNotGrantedException() : Exception()
 fun Fragment.setActionBarTitle(title: String) {
     (activity as AppCompatActivity).supportActionBar?.title = title
 }
+
+fun Fragment.setActionBarSubTitle(subTitle: String) {
+    (activity as AppCompatActivity).supportActionBar?.subtitle = subTitle
+}

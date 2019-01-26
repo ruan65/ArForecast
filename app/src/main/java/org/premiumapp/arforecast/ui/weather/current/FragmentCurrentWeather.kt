@@ -18,6 +18,7 @@ import org.premiumapp.arforecast.R
 import org.premiumapp.arforecast.base.ScopedFragment
 import org.premiumapp.arforecast.internal.Cv
 import org.premiumapp.arforecast.internal.glide.GlideApp
+import org.premiumapp.arforecast.internal.setActionBarSubTitle
 import org.premiumapp.arforecast.internal.setActionBarTitle
 
 class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
@@ -30,6 +31,8 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setActionBarTitle("")
+        setActionBarSubTitle("Today")
         return inflater.inflate(R.layout.fragment_current_weather, container, false)
     }
 
@@ -57,8 +60,6 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
             if (null == it) return@Observer
 
             group_loading.visibility = View.GONE
-
-            updateDateToToday()
             updateTemperature(it.temperature, it.feelsLikeTemperature)
             updateCondition(it.conditionText, it.conditionIconUrl)
             updatePrecipitation(it.precipitationVolume)
@@ -89,10 +90,6 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
         val unit = chooseLocalizedUnitAbbreviation(Cv.CELCIUS, Cv.FARENHEIGHT)
         textView_temperature.text = "$temperature $unit"
         textView_feels_like_temperature.text = "Feels like $feelsLikeTemperature $unit"
-    }
-
-    private fun updateDateToToday() {
-        (activity as AppCompatActivity).supportActionBar?.subtitle = "Today"
     }
 
     private fun updateWind(windDirection: String, windSpeed: Double) {

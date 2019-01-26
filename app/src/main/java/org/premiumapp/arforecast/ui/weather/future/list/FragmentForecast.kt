@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,8 +19,8 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import org.premiumapp.arforecast.R
 import org.premiumapp.arforecast.base.ScopedFragment
-import org.premiumapp.arforecast.data.db.entity.WeatherLocation
 import org.premiumapp.arforecast.data.db.uintlocalized.future.UnitSpecificSimpleFutureWeatherEntry
+import org.premiumapp.arforecast.internal.setActionBarSubTitle
 import org.premiumapp.arforecast.internal.setActionBarTitle
 
 class FragmentForecast : ScopedFragment(), KodeinAware {
@@ -35,6 +34,8 @@ class FragmentForecast : ScopedFragment(), KodeinAware {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setActionBarTitle("")
+        setActionBarSubTitle("Next Week")
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ViewModelForecast::class.java)
         bindUi()
     }
@@ -50,14 +51,9 @@ class FragmentForecast : ScopedFragment(), KodeinAware {
 
         forecast.observe(this@FragmentForecast, Observer {
             if (null == it) return@Observer
-            updateDateToNextWeek()
             group_loading.visibility = View.GONE
             initRecyclerView(it.toItemsForecast())
         })
-    }
-
-    private fun updateDateToNextWeek() {
-        (activity as AppCompatActivity).supportActionBar?.subtitle = "Next Week"
     }
 
     private fun initRecyclerView(items: List<ItemForecast>) {
