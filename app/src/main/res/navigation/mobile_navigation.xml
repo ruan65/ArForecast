@@ -12,7 +12,7 @@
             tools:layout="@layout/fragment_current_weather"/>
     <fragment
             android:id="@+id/fragmentFutureWeatherList"
-            android:name="org.premiumapp.arforecast.ui.weather.future.list.FragmentFutureWeatherList"
+            android:name="org.premiumapp.arforecast.ui.weather.future.list.FragmentForecast"
             android:label="fragment_future_weather_list"
             tools:layout="@layout/fragment_future_weather_list"/>
     <fragment
