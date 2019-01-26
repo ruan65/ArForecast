@@ -36,13 +36,34 @@ class ThisApp : Application(), KodeinAware {
         bind<ConnectivityInterceptor>() with singleton { ConnectivityInterceptorImpl(instance()) }
 
         bind() from singleton { ApixuWeatherApiService(instance()) }
-        bind<WeatherNetworkDataSource>() with singleton { WeatherNetworkDataSourceImpl(instance()) }
+
+        bind<WeatherNetworkDataSource>() with singleton {
+            WeatherNetworkDataSourceImpl(apixuWeatherApiService = instance())
+        }
+
         bind() from provider { LocationServices.getFusedLocationProviderClient(instance<Context>()) }
-        bind<LocationProvider>() with singleton { LocationProviderImpl(instance(), instance()) }
-        bind<RepositoryForecast>() with singleton { RepositoryForecastImpl(instance(), instance(), instance(), instance(), instance()) }
-        bind<UnitProvider>() with singleton { UnitProviderImpl(instance()) }
-        bind() from provider { FactoryCurrentWeatherViewModel(instance(), instance()) }
-        bind() from provider { FactoryForecastViewModel(instance(), instance()) }
+
+        bind<LocationProvider>() with singleton {
+            LocationProviderImpl(
+                fusedLocationProviderClient = instance(),
+                context = instance()
+            )
+        }
+
+        bind<RepositoryForecast>() with singleton {
+            RepositoryForecastImpl(
+                currentWeatherDao = instance(),
+                futureWeatherDao = instance(),
+                daoWeatherLocation = instance(),
+                dataSource = instance(),
+                locationProvider = instance()
+            )
+        }
+
+        bind<UnitProvider>() with singleton { UnitProviderImpl(context = instance()) }
+
+        bind() from provider { FactoryCurrentWeatherViewModel(forecastRepo = instance(), unitProvider = instance()) }
+        bind() from provider { FactoryForecastViewModel(forecastRepo = instance(), unitProvider = instance()) }
     }
 
     override fun onCreate() {

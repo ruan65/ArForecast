@@ -15,7 +15,7 @@ import org.premiumapp.arforecast.data.db.entity.WeatherLocation
         WeatherLocation::class,
         FutureWeatherEntry::class
     ],
-    version = 1
+    version = 2
 )
 @TypeConverters(LocalDateConverter::class)
 abstract class ForecastDb : RoomDatabase() {

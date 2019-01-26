@@ -9,10 +9,10 @@ import android.view.ViewGroup
 
 import org.premiumapp.arforecast.R
 
-class FragmentFutureDetailedWeathe : Fragment() {
+class FragmentFutureDetailedWeather : Fragment() {
 
     companion object {
-        fun newInstance() = FragmentFutureDetailedWeathe()
+        fun newInstance() = FragmentFutureDetailedWeather()
     }
 
     private lateinit var viewModelFutureDetailedWeather: ViewModelFutureDetailedWeather
@@ -21,7 +21,7 @@ class FragmentFutureDetailedWeathe : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_future_detailed_weathe, container, false)
+        return inflater.inflate(R.layout.fragment_future_detailed_weather, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

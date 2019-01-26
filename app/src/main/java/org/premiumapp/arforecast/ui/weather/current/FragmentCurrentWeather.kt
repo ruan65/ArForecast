@@ -89,8 +89,8 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
         textView_feels_like_temperature.text = "Feels like $feelsLikeTemperature $unit"
     }
 
-    private fun updateLocation(location: String) {
-        (activity as AppCompatActivity).supportActionBar?.title = location
+    private fun updateLocation(location: String?) {
+        (activity as AppCompatActivity).supportActionBar?.title = location ?: return
     }
 
     private fun updateDateToToday() {

@@ -17,9 +17,9 @@
             tools:layout="@layout/fragment_future_weather_list"/>
     <fragment
             android:id="@+id/fragmentFutureDetailedWeathe"
-            android:name="org.premiumapp.arforecast.ui.weather.future.detailed.FragmentFutureDetailedWeathe"
+            android:name="org.premiumapp.arforecast.ui.weather.future.detailed.FragmentFutureDetailedWeather"
             android:label="fragment_future_detailed_weathe"
-            tools:layout="@layout/fragment_future_detailed_weathe"/>
+            tools:layout="@layout/fragment_future_detailed_weather"/>
     <fragment
             android:id="@+id/fragmentSettings"
             android:name="org.premiumapp.arforecast.ui.settings.FragmentSettings"

@@ -11,7 +11,7 @@ const val WEATHER_LOCATION_ID = 0
 
 @Entity(tableName = "weather_location")
 data class WeatherLocation(
-    val name: String,
+    val name: String?,
     val region: String,
     val country: String,
     val lat: Double,
