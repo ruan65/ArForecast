@@ -38,7 +38,7 @@ class ItemForecast(
 
     private fun ViewHolder.updateConditionImage() {
         GlideApp.with(this.containerView)
-            .load("http://" + weatherEntry.conditionIconUrl)
+            .load("http:" + weatherEntry.conditionIconUrl)
             .into(imageView_condition_icon)
     }
 }

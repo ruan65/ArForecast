@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
+import android.util.Log
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.Deferred
@@ -66,6 +67,7 @@ class LocationProviderImpl(
     }
 
     override suspend fun getPreferredLocation(): String {
+        Log.d("mytag", "get preferred location is using device location: ${isUsingDeviceLocation()}")
         if (isUsingDeviceLocation()) {
             try {
                 val deviceLocation = getDeviceLocation().await() ?: return getCustomLocationName()

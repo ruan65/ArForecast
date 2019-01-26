@@ -1,6 +1,7 @@
 package org.premiumapp.arforecast.ui.weather.current
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import org.premiumapp.arforecast.R
 import org.premiumapp.arforecast.base.ScopedFragment
 import org.premiumapp.arforecast.internal.Cv
 import org.premiumapp.arforecast.internal.glide.GlideApp
+import org.premiumapp.arforecast.internal.setActionBarTitle
 
 class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
@@ -47,7 +49,7 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
 
         weatherLocation.observe(this@FragmentCurrentWeather, Observer { location ->
             if (null == location) return@Observer
-            updateLocation(location = location.name)
+            setActionBarTitle(location.name ?: "")
         })
 
         currentWeather.observe(this@FragmentCurrentWeather, Observer {
@@ -87,10 +89,6 @@ class FragmentCurrentWeather : ScopedFragment(), KodeinAware {
         val unit = chooseLocalizedUnitAbbreviation(Cv.CELCIUS, Cv.FARENHEIGHT)
         textView_temperature.text = "$temperature $unit"
         textView_feels_like_temperature.text = "Feels like $feelsLikeTemperature $unit"
-    }
-
-    private fun updateLocation(location: String?) {
-        (activity as AppCompatActivity).supportActionBar?.title = location ?: return
     }
 
     private fun updateDateToToday() {

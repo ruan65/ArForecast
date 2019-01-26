@@ -22,6 +22,7 @@ import org.premiumapp.arforecast.R
 import org.premiumapp.arforecast.base.ScopedFragment
 import org.premiumapp.arforecast.data.db.entity.WeatherLocation
 import org.premiumapp.arforecast.data.db.uintlocalized.future.UnitSpecificSimpleFutureWeatherEntry
+import org.premiumapp.arforecast.internal.setActionBarTitle
 
 class FragmentForecast : ScopedFragment(), KodeinAware {
 
@@ -44,7 +45,7 @@ class FragmentForecast : ScopedFragment(), KodeinAware {
 
         locationLive.observe(this@FragmentForecast, Observer { location ->
             if (null == location) return@Observer
-            updateLocation(location)
+            setActionBarTitle(location.name ?: "")
         })
 
         forecast.observe(this@FragmentForecast, Observer {
@@ -53,11 +54,6 @@ class FragmentForecast : ScopedFragment(), KodeinAware {
             group_loading.visibility = View.GONE
             initRecyclerView(it.toItemsForecast())
         })
-    }
-
-    private fun updateLocation(location: WeatherLocation?) {
-        val name = location?.name ?: return
-        (activity as AppCompatActivity).supportActionBar?.title = name
     }
 
     private fun updateDateToNextWeek() {
